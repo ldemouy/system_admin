@@ -1,0 +1,8 @@
+[package]
+name = "system_admin_modules"
+version = "0.1.0"
+authors = ["Luke De Mouy <lukedemouy@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+system_admin_lib = { path = "../../lib/system_admin_lib" }

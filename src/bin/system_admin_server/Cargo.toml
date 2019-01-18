@@ -1,0 +1,23 @@
+[package]
+name = "system_admin_server"
+version = "0.1.0"
+authors = ["Luke De Mouy <lukedemouy@gmail.com>"]
+edition = "2018"
+
+[lib]
+name = "system_admin_server_lib"
+path = "src/lib.rs"
+
+[[bin]]
+name = "system_admin_server"
+path = "src/main.rs"
+
+[dependencies]
+#local
+system_admin_lib = { path = "../../lib/system_admin_lib"}
+system_admin_modules = { path = "../../modules/system_admin_modules"}
+#remote
+confy = "0.3.1"
+serde = "1.0.84"
+serde_derive = "1.0.84"
+bincode = "1.0.1"

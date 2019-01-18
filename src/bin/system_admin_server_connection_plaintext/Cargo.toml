@@ -1,0 +1,13 @@
+[package]
+name = "system_admin_server_connection_plaintext"
+version = "0.1.0"
+authors = ["Luke De Mouy <lukedemouy@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+#local
+system_admin_lib = { path = "../../lib/system_admin_lib"}
+#external
+serde = "1.0.84"
+serde_derive = "1.0.84"
+bincode = "1.0.1"

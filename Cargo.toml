@@ -1,0 +1,8 @@
+[workspace]
+members = [
+"src/bin/system_admin_server",
+"src/bin/system_admin_server_connection_plaintext",
+"src/lib/system_admin_lib",
+"src/modules/system_admin_modules",
+"src/tests",
+]
