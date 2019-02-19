@@ -4,6 +4,7 @@ use std::io::prelude::*;
 use std::net::Shutdown;
 use system_admin_lib::messages::*;
 use bincode::serialize;
+use bincode::deserialize;
 
 fn main() {
     loop {
@@ -24,8 +25,9 @@ fn main() {
         //Read the response
         let mut response = String::new();
         socket.read_to_string(&mut response);
+        let response : Message = deserialize(&response.as_bytes()).unwrap();
 
-        println!("{}",response);
+        println!("{:?}",response);
         socket.shutdown(Shutdown::Read).expect("Shutdown failure");
     }
 }

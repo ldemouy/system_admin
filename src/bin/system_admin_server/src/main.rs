@@ -8,21 +8,25 @@ use std::io::prelude::*;
 use std::fs;
 use std::str;
 use bincode::deserialize;
+use bincode::serialize;
 
-fn handle_client(mut stream : UnixStream, tx : Sender<Message>) {
+fn handle_client(mut stream : UnixStream, tx : Sender<(Message, Sender<Message>)>) {
+    let (thread_tx, thread_rx) = mpsc::channel();
     let mut response = String::new();
     let mut buffer = vec![];
     stream.read_to_end(&mut buffer);
     let message : Message = deserialize(&buffer).expect("couldn't deserialize message");
-    tx.send(message);
+    tx.send((message, thread_tx));
 
-    stream.write_all(b"Response").expect("couldn't write to socket");
+    let message = thread_rx.recv().expect("channel error");
+    let message = serialize(&message).expect("couldn't serialize Message");
+    stream.write_all(&message).expect("couldn't write to socket");
 }
 
 fn main() {
     println!("system_admin_server starting");
-    let (main_tx, main_rx) = mpsc::channel();
-    let controller = Controller::new(main_tx);
+
+    let controller = Controller::new();
     let tx = controller.sender.clone();
     thread::spawn(move || controller.run());
 
@@ -32,6 +36,7 @@ fn main() {
 
     for stream in listener.incoming() {
         let tx_clone = tx.clone();
+
         match stream {
             Ok(stream) => {
                 thread::spawn(move || handle_client(stream, tx_clone));
