@@ -11,7 +11,7 @@ use system_admin_modules::traits::*;
 pub struct Controller {
     pub sender: Sender<(Message, Sender<Message>)>,
     receiver: Receiver<(Message, Sender<Message>)>,
-    modules: Vec<Arc<SystemAdminModule + Send>>
+    modules: Vec<Arc<SystemAdminModule + Send + Sync>>
 
 }
 
