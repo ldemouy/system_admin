@@ -16,6 +16,10 @@ pub enum MessageType {
     UndefinedError,
     Message { message : String },
     Action { message : String },
+    Authenticate {username : String, password : String},
+    AuthenticationFail,
+    AuthenticationSuccess,
+    Command { module : String,  action : String, arguments : String, authentication_token : String},
 }
 
 /// PermissionLevel is broadly modeled off of IRC's permission level system with the names changed
@@ -35,7 +39,7 @@ pub enum PermissionLevel {
 /// allowing fine grained control, or Any to allow for responding to any message. All received messages
 /// will be tagged with the protocol they were received by according to the connection's settings
 /// PlainText is a special plain text protocol primarily for development purposes
-#[derive(Debug, Serialize, Deserialize, PartialOrd, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialOrd, PartialEq,Clone)]
 pub enum ProtocolType {
     PlainText,
     SOAP,

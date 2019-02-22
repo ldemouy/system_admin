@@ -1,24 +1,24 @@
 use std::sync::mpsc::{Sender, Receiver};
 use std::sync::mpsc;
-use std::sync::Arc;
 use std::thread;
 
 use system_admin_lib::messages::*;
 use system_admin_modules::*;
 use system_admin_modules::traits::*;
+use system_admin_modules::echo_module::*;
 
 
 pub struct Controller {
     pub sender: Sender<(Message, Sender<Message>)>,
     receiver: Receiver<(Message, Sender<Message>)>,
-    modules: Vec<Arc<SystemAdminModule + Send + Sync>>
+    modules: Vec<Box<SystemAdminModule + Send>>
 
 }
 
 impl Controller {
     pub fn new () -> Controller {
         let (sender, receiver) : (Sender<(Message, Sender<Message>)>, Receiver<(Message, Sender<Message>)>) = mpsc::channel();
-        Controller{sender, receiver, modules: vec![]}
+        Controller{sender, receiver, modules: vec![Box::new(EchoModule::new())]}
     }
     pub fn run (&self) {
         loop {

@@ -5,4 +5,9 @@ authors = ["Luke De Mouy <lukedemouy@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+#local
 system_admin_lib = { path = "../../lib/system_admin_lib" }
+#remote
+sqlite = "0.24.0"
+pam = "0.7.0"
+guid-create = "0.1.1"
